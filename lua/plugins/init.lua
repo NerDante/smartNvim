@@ -237,29 +237,16 @@ require('lazy').setup({
     },
 
     {
-        "ahmedkhalf/project.nvim",
+        'mhinz/vim-startify',
         config = function()
-            require("project_nvim").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-            require('telescope').load_extension('projects')
-            local map = require("core.utils").map
-            map('n', '<leader>p', function()
-                require 'telescope'.extensions.projects.projects {}
-            end, { desc = 'recent project' })
+            vim.cmd([[
+                let g:startify_session_persistence = 1
+                let g:startify_lists = [
+                 \ { 'type': 'sessions',  'header': ['   Saved Sessions'] },
+                 \ { 'type': 'files',     'header': ['   Recent files']   },
+                 \ ]
+            ]])
         end
     },
-
-    -- session manager
-    {
-        "olimorris/persisted.nvim",
-        config = function()
-            require("persisted").setup()
-            require("telescope").load_extension("persisted")
-        end
-    },
-
 
 }, {})

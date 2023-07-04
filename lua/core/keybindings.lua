@@ -13,6 +13,7 @@ wk.register({
         b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
         f = { "<cmd>Telescope find_files<cr>", "Find file" },
         r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
+        p = { "<cmd>Telescope projects<cr>", "projects" },
     },
 })
 -- map a function is ok, amazing
@@ -62,4 +63,11 @@ wk.register({
 })
 map('n', '<leader>j', '<Cmd>HopChar1<CR>', {desc = "jump"})
 
+-----[[Toggle something]]-----
+wk.register({
+    ["<leader>t"] = {
+        name = "Toggle",
+        s = { "<cmd>SymbolsOutline<cr>", "SymbolsOutline" },
+    },
+})
 

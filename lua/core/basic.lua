@@ -52,6 +52,9 @@ vim.g.termencoding = "utf8"
 vim.g.encoding = "utf8"
 vim.opt.fileencodings = "utf8,ucs-bom,gbk,cp936,gb2312,gb18030"
 
+-- highlight cursorline
+vim.o.cursorline = true
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -61,4 +64,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
     group = highlight_group,
     pattern = '*',
+})
+
+-- jump to last position while open a file
+vim.api.nvim_create_autocmd('BufReadPost', {
+    pattern = '*',
+    callback = function()
+        vim.cmd([[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif]])
+    end
 })
