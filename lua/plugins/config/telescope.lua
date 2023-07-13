@@ -33,6 +33,9 @@ local options = {
             },
             n = { ["q"] = require("telescope.actions").close },
         },
+        preview = {
+            filesize_limit = 1,  //Mb
+        },
     },
 }
 

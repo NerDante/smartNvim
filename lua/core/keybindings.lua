@@ -3,6 +3,9 @@ local wk = require("which-key")
 
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 map('n', '<leader>,', '<C-o>',{desc = "<== back"})
+-- c-s save
+map({'n', 'v'}, '<C-s>','<cmd>w!<cr>')
+map('i', '<C-s>','<esc><cmd>w!<cr>a')
 
 -----[[Telescope keymap]]-----
 wk.register({
@@ -17,13 +20,13 @@ wk.register({
     },
 })
 -- map a function is ok, amazing
-map('n', '<leader>/', function()
+map('n', '<leader>fc', function()
     -- You can pass additional configuration to telescope to change theme, layout, etc.
     require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
         winblend = 10,
         previewer = false,
     })
-end, { desc = '[/] Fuzzily search in current buffer' })
+end, { desc = 'Fuzzily search in current buffer' })
 
 -----[[barbar keymap]]-----
 -- Goto buffer in position...

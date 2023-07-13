@@ -34,6 +34,7 @@ require('lazy').setup({
         },
         config = function()
             require "plugins.config.lspconfig"
+            vim.diagnostic.disable()
         end
     },
 
@@ -89,6 +90,17 @@ require('lazy').setup({
         'navarasu/onedark.nvim',
         priority = 1000,
         config = function()
+            require('onedark').setup {
+                --   Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+                style = 'dark',
+                code_style = {
+                    comments = 'italic',
+                    keywords = 'bold',
+                    functions = 'none',
+                    strings = 'none',
+                    variables = 'none'
+                },
+            }
             vim.cmd.colorscheme 'onedark'
         end,
     },
@@ -125,13 +137,14 @@ require('lazy').setup({
     -- Fuzzy Finder (files, lsp, etc)
     {
         'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
+        tag = '0.1.2',
         dependencies = { 'nvim-lua/plenary.nvim' },
         opts = function()
             return require "plugins.config.telescope"
         end,
         config = function(_, opts)
             require("telescope").setup(opts)
+            require('telescope').load_extension('fzf') 
         end
     },
 
