@@ -5,8 +5,9 @@
 -- Set highlight on search
 vim.o.hlsearch = false
 
--- Make line numbers default
+-- relative number 
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- mouse mode
 vim.o.mouse = 'nv'
@@ -54,6 +55,15 @@ vim.opt.fileencodings = "utf8,ucs-bom,gbk,cp936,gb2312,gb18030"
 
 -- highlight cursorline
 vim.o.cursorline = true
+
+-- disable backup 
+vim.o.backup = false
+vim.o.writebackup = false
+vim.o.swapfile = false
+
+-- remain 8 line while scroll 
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

@@ -109,6 +109,14 @@ require('lazy').setup({
     },
 
     {
+        'sainnhe/gruvbox-material',
+        -- config = function()
+        --     vim.cmd.colorscheme 'gruvbox-material'
+        -- end,
+
+    },
+
+    {
         -- Set lualine as statusline
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -263,6 +271,11 @@ require('lazy').setup({
                  \ ]
             ]])
         end
+    },
+
+    -- transparent
+    {
+        'xiyaowong/transparent.nvim',
     },
 
 }, {})

@@ -59,7 +59,7 @@ map('n', '<A-f>', '<Cmd>HopChar1<CR>', {desc = "HopChar1"})
 wk.register({
     ["<leader>j"] = {
         name = "jump",
-        c = { "<cmd>HopChar1<cr>", "jump to char" },
+        j = { "<cmd>HopChar1<cr>", "jump to char" },
         l = { "<cmd>HopLine<cr>", "jump to line" },
         w = { "<cmd>HopWord<cr>", "jump to word" },
     },
