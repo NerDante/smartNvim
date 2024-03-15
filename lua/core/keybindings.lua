@@ -7,6 +7,10 @@ map('n', '<leader>,', '<C-o>',{desc = "<== back"})
 map({'n', 'v'}, '<C-s>','<cmd>w!<cr>')
 map('i', '<C-s>','<esc><cmd>w!<cr>a')
 
+-- indent
+map('v', '<', '<gv')
+map('v', '>', '>gv')
+
 -----[[Telescope keymap]]-----
 wk.register({
     ["<leader>;"] = { "<cmd> Telescope treesitter<CR>", "treesitter" },
@@ -47,6 +51,7 @@ wk.register({
     ["<leader>b"] = {
         name = "buffer...",
         a = {"<Cmd>BufferCloseAllButCurrent<CR>", "BufferCloseAllButCurrent"},
+        b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
         c = {"<Cmd>BufferClose<CR>", "Close Current"},
         l = {"<Cmd>BufferCloseLeft<CR>", "BufferCloseLeft"},
         r = {"<Cmd>BufferCloseRight<CR>", "BufferCloseRight"},
