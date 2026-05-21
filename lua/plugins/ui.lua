@@ -12,7 +12,7 @@ return {
         { "<leader>b", group = "buffer" },
         { "<leader>c", group = "code" },
         { "<leader>f", group = "find" },
-        { "<leader>m", group = "mark" },
+        { "<leader>m", group = "mark/md" },
         { "<leader>s", group = "session" },
         { "<leader>t", group = "theme" },
         { "<leader>w", group = "window" },

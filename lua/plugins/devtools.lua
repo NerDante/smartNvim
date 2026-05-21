@@ -8,6 +8,7 @@ return {
         cpp = { "clang-format" },
         cuda = { "clang-format" },
         cmake = { "cmake_format" },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
         python = { "isort", "black" },
       },
     },
@@ -44,6 +45,7 @@ return {
         ),
         python = available({ name = "ruff", cmd = "ruff" }),
         cmake = available({ name = "cmakelint", cmd = "cmakelint" }),
+        markdown = available({ name = "markdownlint-cli2", cmd = "markdownlint-cli2" }),
       }
 
       local group = vim.api.nvim_create_augroup("UserLinting", { clear = true })

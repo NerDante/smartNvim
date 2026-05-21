@@ -1,12 +1,13 @@
 # Neovim IDE Config
 
-这是一个基于 `lazy.nvim` 的 Neovim IDE 风格配置，面向 `C/C++`、`Python` 和 `Lua` 开发场景。
+这是一个基于 `lazy.nvim` 的 Neovim IDE 风格配置，面向 `C/C++`、`Python`、`Lua` 和 `Markdown` 编辑场景。
 
 当前配置特点：
 
 - 插件管理使用 `lazy.nvim`
 - 默认主题为 `tokyonight` 深色
 - 支持 `LSP`、补全、诊断、格式化、异步 lint
+- 支持 `Markdown` 增强渲染、列表编辑、浏览器预览
 - 支持 `Telescope` 浮动窗口模糊查询文件、符号、tag、命令
 - 支持 `session` 管理
 - 支持 `which-key` 按键提示
@@ -40,6 +41,7 @@
         ├── devtools.lua
         ├── editor.lua
         ├── lsp.lua
+        ├── markdown.lua
         ├── session.lua
         ├── telescope.lua
         ├── treesitter.lua
@@ -115,6 +117,9 @@
 | `echasnovski/mini.ai` | 增强 `a` / `i` textobject，改善引号、括号、函数参数、函数调用等 pair 类对象编辑 |
 | `Mr-LLLLL/interestingwords.nvim` | 多个词/变量/函数高亮，支持不同颜色同时标记并导航 |
 | `lewis6991/gitsigns.nvim` | Git hunk 标记、预览和 blame |
+| `MeanderingProgrammer/render-markdown.nvim` | 在 buffer 内增强 Markdown 标题、列表、代码块、分隔线等渲染效果 |
+| `gaoDean/autolist.nvim` | 自动续写 Markdown 列表、任务列表，支持缩进/反缩进与重编号 |
+| `iamcco/markdown-preview.nvim` | 浏览器实时预览 Markdown，适合查看最终渲染效果 |
 
 ### 6. 格式化与 lint
 
@@ -127,6 +132,7 @@
 
 - `C/C++/CUDA`：`clang-format`
 - `CMake`：`cmake-format`
+- `Markdown`：`prettierd` 或 `prettier`
 - `Python`：`isort` + `black`
 
 当前已配置的 lint：
@@ -134,6 +140,7 @@
 - `C/C++`：`clang-tidy` + `cppcheck`
 - `Python`：`ruff`
 - `CMake`：`cmakelint`
+- `Markdown`：`markdownlint-cli2`
 
 ### 7. 会话、启动页与辅助界面
 
@@ -167,10 +174,15 @@
   - `isort`
   - `ruff`
   - `cmakelang`
+- Node 工具建议使用 `npm` 全局安装：
+  - `pyright`
+  - `prettier`
+  - `prettierd`
+  - `markdownlint-cli2`
 - `cmakelang` 会同时提供：
   - `cmake-format`
   - `cmake-lint`
-- `pyright` 推荐用 `npm` 全局安装，或交给 `:Mason` 管理
+- `pyright` 也可交给 `:Mason` 管理
 
 ### 必需
 
@@ -194,6 +206,8 @@
 | `ruff` | Python lint |
 | `cmake-format` | CMake 格式化 |
 | `cmakelint` | CMake lint |
+| `prettier` 或 `prettierd` | Markdown 格式化 |
+| `markdownlint-cli2` | Markdown lint |
 
 ### 推荐安装方式
 
@@ -255,6 +269,12 @@ pipx install cmakelang
 npm install -g pyright
 ```
 
+安装 Markdown 工具：
+
+```bash
+npm install -g prettier prettierd markdownlint-cli2
+```
+
 说明：
 
 - `cmakelang` 会提供 `cmake-format` 和 `cmake-lint`
@@ -286,6 +306,12 @@ pipx install cmakelang
 npm install -g pyright
 ```
 
+安装 Markdown 工具：
+
+```bash
+npm install -g prettier prettierd markdownlint-cli2
+```
+
 说明：
 
 - Arch 的 `clang` 包通常会一并提供 LLVM/Clang 工具链，实际可用命令可用 `clangd --version`、`clang-format --version`、`clang-tidy --version` 检查
@@ -313,6 +339,12 @@ pipx install cmakelang
 
 ```bash
 npm install -g pyright
+```
+
+安装 Markdown 工具：
+
+```bash
+npm install -g prettier prettierd markdownlint-cli2
 ```
 
 说明：
@@ -352,6 +384,9 @@ isort --version
 ruff --version
 cmake-format --version
 cmake-lint --version
+prettier --version
+prettierd --version
+markdownlint-cli2 --version
 ```
 
 ### 推荐最小集
@@ -372,6 +407,8 @@ isort
 ruff
 cmakelang
 pyright
+prettier
+markdownlint-cli2
 ```
 
 ### 依赖缺失时的表现
@@ -379,8 +416,8 @@ pyright
 如果某些工具未安装，当前配置的行为如下：
 
 - `clangd` / `pyright` 未安装：对应语言的 LSP 不可用
-- `clang-format` / `black` / `isort` 未安装：格式化功能不可用或回退到 LSP format
-- `clang-tidy` / `cppcheck` / `ruff` / `cmake-lint` 未安装：对应 lint 会自动跳过，不再报 `ENOENT`
+- `clang-format` / `black` / `isort` / `prettier` / `prettierd` 未安装：对应格式化功能不可用或回退到其他可用 formatter
+- `clang-tidy` / `cppcheck` / `ruff` / `cmake-lint` / `markdownlint-cli2` 未安装：对应 lint 会自动跳过，不再报 `ENOENT`
 - `make` 未安装：`telescope-fzf-native.nvim` 不会启用原生加速
 
 ### C/C++ 工程建议
@@ -535,7 +572,32 @@ ln -sf build/compile_commands.json .
 | `;ch` | Normal | 在头文件与源文件之间切换 |
 | `;ci` | Normal | 查看 clangd 符号信息 |
 
-### 13. Git
+### 13. Markdown
+
+以下按键仅在 `markdown` buffer 中可用。
+
+| 按键 | 模式 | 说明 |
+| --- | --- | --- |
+| `;mp` | Normal | 打开/关闭 Markdown 浏览器预览 |
+| `;mP` | Normal | 停止 Markdown 浏览器预览 |
+| `;mf` | Normal | 格式化当前 Markdown buffer |
+| `;mc` | Normal | 切换任务列表复选框 |
+| `;mr` | Normal | 重算有序列表编号 |
+| `;mn` | Normal | 循环切换到下一种列表样式 |
+| `;mN` | Normal | 循环切换到上一种列表样式 |
+| `<CR>` | Insert | 在列表中续写下一项 |
+| `<Tab>` | Insert | 列表项缩进 |
+| `<S-Tab>` | Insert | 列表项反缩进 |
+| `o` | Normal | 在当前位置下方插入同级列表项 |
+| `O` | Normal | 在当前位置上方插入同级列表项 |
+
+Markdown buffer 默认行为：
+
+- 开启软换行相关显示：`wrap`、`linebreak`、`breakindent`
+- 开启 `conceallevel=2` 以改善 Markdown 显示
+- 不自动开启拼写检查
+
+### 14. Git
 
 以下按键仅在 Git 仓库内对应 buffer 可用。
 
@@ -546,7 +608,7 @@ ln -sf build/compile_commands.json .
 | `;gp` | Normal | 预览 hunk |
 | `;gb` | Normal | 查看当前行 blame |
 
-### 14. 插入模式补全
+### 15. 插入模式补全
 
 以下按键在补全菜单弹出后最常用。
 
@@ -559,7 +621,7 @@ ln -sf build/compile_commands.json .
 | `<Tab>` | Insert/Select | 下一个补全项，或展开/跳转 snippet |
 | `<S-Tab>` | Insert/Select | 上一个补全项，或反向跳转 snippet |
 
-### 15. Pair / Textobject 增强
+### 16. Pair / Textobject 增强
 
 `mini.ai` 不增加很多显式快捷键，但会显著增强原生 `a` / `i` 文本对象体验，尤其适合引号、括号、参数和函数调用场景。
 
@@ -584,7 +646,7 @@ ln -sf build/compile_commands.json .
 - 对函数调用、参数列表等对象支持更好
 - 比原生 textobject 覆盖范围更广
 
-### 16. Telescope 窗口内
+### 17. Telescope 窗口内
 
 | 按键 | 模式 | 说明 |
 | --- | --- | --- |
@@ -600,7 +662,7 @@ ln -sf build/compile_commands.json .
 | `;b` | Buffer 相关 |
 | `;c` | 代码/LSP 相关 |
 | `;f` | 搜索与定位 |
-| `;m` | 标记与多词高亮 |
+| `;m` | 标记与 Markdown |
 | `;s` | Session 管理 |
 | `;t` | 主题 |
 | `;w` | 窗口管理 |
@@ -624,6 +686,16 @@ ln -sf build/compile_commands.json .
 2. `pyright` 提供跳转、补全、重命名
 3. 用 `;cf` 手动执行 `isort + black`
 4. `ruff` 在写入或离开插入模式后触发
+
+### Markdown
+
+1. 用 `;ff` 或 `;fr` 打开 `.md` 文件
+2. 直接在 buffer 内查看增强渲染效果
+3. 用 `<CR>`、`<Tab>`、`<S-Tab>` 编写和整理列表
+4. 用 `;mc` 切换任务列表复选框
+5. 用 `;mf` 执行 `prettierd` / `prettier` 格式化
+6. 用 `;mp` 打开浏览器实时预览
+7. `markdownlint-cli2` 在写入或离开插入模式后触发
 
 ## 说明
 
