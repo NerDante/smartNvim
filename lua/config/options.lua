@@ -12,10 +12,8 @@ opt.sessionoptions = {
     "curdir",
     "folds",
     "globals",
-    "help",
-    "localoptions",
-    "skiprtp",
     "tabpages",
+    "winpos",
     "winsize",
 }
 

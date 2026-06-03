@@ -118,8 +118,7 @@ return {
         dashboard.button("f", "󰈞  Find File", "<cmd>Telescope find_files hidden=true<cr>"),
         dashboard.button("r", "  Recent Files", "<cmd>Telescope oldfiles<cr>"),
         dashboard.button("g", "󰈬  Live Grep", "<cmd>Telescope live_grep<cr>"),
-        dashboard.button("s", "  Select Session", "<cmd>lua require('config.session_picker').select()<cr>"),
-        dashboard.button("l", "󰁯  Restore Last Session", "<cmd>lua require('persistence').load({ last = true })<cr>"),
+        dashboard.button("s", "󰁯  Search Session", "<cmd>Telescope persisted<cr>"),
         dashboard.button("c", "  Edit Config", "<cmd>edit ~/.config/nvim/init.lua<cr>"),
         dashboard.button("q", "  Quit", "<cmd>qa<cr>"),
       }

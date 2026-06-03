@@ -9,7 +9,7 @@
 - 支持 `LSP`、补全、诊断、格式化、异步 lint
 - 支持 `Markdown` 增强渲染、列表编辑、浏览器预览
 - 支持 `Telescope` 浮动窗口模糊查询文件、符号、tag、命令
-- 支持 `session` 管理
+- 支持 `persisted.nvim` 会话恢复
 - 支持 `which-key` 按键提示
 - 支持启动页、诊断面板、符号大纲、Git 变更查看
 - 支持 buffer tabline、快速跳转、多词高亮和增强 textobject/pair 编辑
@@ -146,7 +146,7 @@
 
 | 插件 | 作用 |
 | --- | --- |
-| `folke/persistence.nvim` | 自动保存/恢复 session |
+| `olimorris/persisted.nvim` | 按项目目录保存/恢复 buffer、窗口与 session，支持 Telescope |
 | `goolord/alpha-nvim` | Lua 启动页，显示最近文件、当前目录入口和常用命令 |
 | `folke/which-key.nvim` | Leader 键按键提示 |
 | `folke/trouble.nvim` | 诊断、LSP 结果、quickfix/location list 面板 |
@@ -500,10 +500,10 @@ ln -sf build/compile_commands.json .
 
 | 按键 | 模式 | 说明 |
 | --- | --- | --- |
-| `;sl` | Normal | 加载当前目录 session |
-| `;sL` | Normal | 加载最近一次 session |
-| `;ss` | Normal | 用浮动窗口选择 session，支持 `j/k` 和 `Ctrl-j/Ctrl-k` |
-| `;sd` | Normal | 停止当前 session 自动保存 |
+| `;ss` | Normal | 打开 session 列表 |
+| `;sr` | Normal | 恢复当前项目 session |
+| `;sd` | Normal | 删除当前项目 session 文件 |
+| `;sw` | Normal | 手动保存当前项目 session |
 
 ### 7. 快速跳转
 
